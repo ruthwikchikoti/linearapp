@@ -99,20 +99,27 @@ function HomeContent() {
 
   const setupKeyboardShortcuts = () => {
     if (typeof window === 'undefined') return;
-    
-    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        setShowCommandPalette(true);
-      }
+
+    // Listen for custom events from AppLayout keyboard shortcuts
+    const handleOpenCreate = () => setShowCreateModal(true);
+
+    // Handle Escape key for closing modals
+    const handleEscape = (e: globalThis.KeyboardEvent) => {
       if (e.key === "Escape") {
         setShowCommandPalette(false);
         setShowCreateModal(false);
         setShowIssueModal(false);
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+
+    window.addEventListener("open-create-modal", handleOpenCreate);
+    window.addEventListener("keydown", handleEscape);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("open-create-modal", handleOpenCreate);
+      window.removeEventListener("keydown", handleEscape);
+    };
   };
 
   const setupSocket = () => {
@@ -327,6 +334,10 @@ function HomeContent() {
               <div onClick={() => router.push('/cycles')} className={router.pathname === '/cycles' ? 'active' : ''}>
                 <RoadmapIcon />
                 Cycles
+              </div>
+              <div onClick={() => router.push('/integrations')} className={router.pathname === '/integrations' ? 'active' : ''}>
+                <ViewIcon />
+                Integrations
               </div>
             </div>
         </div>

@@ -2,6 +2,12 @@
 
 echo "🚀 Starting Linear Clone Application..."
 
+# Kill any existing processes on ports 3000 and 3001
+echo "🧹 Cleaning up existing processes..."
+lsof -ti:3001 | xargs kill -9 2>/dev/null || true
+lsof -ti:3000 | xargs kill -9 2>/dev/null || true
+sleep 1
+
 # Check if MongoDB is running
 if ! pgrep -x "mongod" > /dev/null && [ "$MONGODB_URL" != *"atlas"* ]; then
   echo "⚠️  Warning: MongoDB doesn't appear to be running locally"

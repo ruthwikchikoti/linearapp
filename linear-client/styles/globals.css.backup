@@ -254,9 +254,9 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   justify-content: center;
   background-color: var(--linear-bg-tertiary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
   flex-shrink: 0;
 }
 
@@ -271,9 +271,6 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  min-height: 0; /* Allow flex item to shrink below content size */
-  display: flex;
-  flex-direction: column;
 }
 
 .feature > div {
@@ -286,7 +283,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   transition: background-color 0.15s ease;
   user-select: none;
 }
@@ -347,12 +344,12 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   padding: 0 var(--spacing-3);
   background: transparent;
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-secondary);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .view-toggle button:hover {
@@ -379,11 +376,11 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   padding: 0 var(--spacing-2);
   background-color: var(--linear-bg-tertiary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-secondary);
   font-size: 13px;
   outline: none;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .filter select:focus,
@@ -467,10 +464,10 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   padding: var(--spacing-4);
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 6px;
   margin-bottom: var(--spacing-2);
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
   position: relative;
 }
 
@@ -523,7 +520,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   font-size: 11px;
   font-weight: 600;
   padding: 2px var(--spacing-2);
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
@@ -579,7 +576,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   max-width: 90vw;
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-lg);
+  border-radius: 8px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   overflow: hidden;
   animation: slideDown 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -690,7 +687,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   max-height: 90vh;
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-lg);
+  border-radius: 8px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;
@@ -729,7 +726,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   margin: 0;
   cursor: text;
   padding: var(--spacing-1);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   transition: background-color 0.15s ease;
   line-height: 1.3;
   letter-spacing: -0.3px;
@@ -745,7 +742,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   font-weight: 600;
   background: transparent;
   border: 2px solid var(--linear-accent);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-primary);
   padding: var(--spacing-1) var(--spacing-2);
   outline: none;
@@ -761,8 +758,8 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  border-radius: 5px;
+  transition: all 0.15s ease;
   width: 28px;
   height: 28px;
   flex-shrink: 0;
@@ -813,8 +810,8 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   padding: var(--spacing-2) var(--spacing-3);
   background-color: var(--linear-bg-tertiary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  border-radius: 5px;
+  transition: all 0.15s ease;
 }
 
 .issue-attachment:hover {
@@ -849,7 +846,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   align-items: center;
   justify-content: center;
   border-radius: 3px;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
   font-size: 16px;
   line-height: 1;
 }
@@ -879,7 +876,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   padding: var(--spacing-1) var(--spacing-2);
   background-color: var(--linear-bg-tertiary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   font-size: 12px;
   color: var(--linear-text-secondary);
 }
@@ -896,12 +893,12 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
 .issue-modal-description {
   min-height: 100px;
   padding: var(--spacing-3);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-secondary);
   cursor: text;
   line-height: 1.6;
   border: 1px solid transparent;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
   font-size: 14px;
 }
 
@@ -936,7 +933,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
 .issue-modal-description code {
   background-color: var(--linear-bg-elevated);
   padding: 2px var(--spacing-2);
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--linear-text-primary);
@@ -945,7 +942,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
 .issue-modal-description pre {
   background-color: var(--linear-bg-elevated);
   padding: var(--spacing-3);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   overflow-x: auto;
   margin: var(--spacing-2) 0;
 }
@@ -969,7 +966,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   min-height: 200px;
   background-color: var(--linear-bg-tertiary);
   border: 2px solid var(--linear-accent);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-primary);
   padding: var(--spacing-3);
   font-family: var(--font-family);
@@ -998,12 +995,12 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   width: 100%;
   background-color: var(--linear-bg-elevated);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-primary);
   padding: var(--spacing-2) var(--spacing-3);
   font-size: 14px;
   outline: none;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
   font-family: var(--font-family);
 }
 
@@ -1073,7 +1070,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   font-size: 12px;
   color: var(--linear-text-secondary);
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .issue-comment-reaction:hover {
@@ -1088,8 +1085,8 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   font-size: 12px;
   cursor: pointer;
   padding: 4px var(--spacing-2);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  border-radius: 5px;
+  transition: all 0.15s ease;
 }
 
 .issue-comment-add-reaction:hover {
@@ -1107,14 +1104,14 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   width: 100%;
   background-color: var(--linear-bg-tertiary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-primary);
   padding: var(--spacing-3);
   font-family: var(--font-family);
   font-size: 14px;
   resize: vertical;
   outline: none;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
   min-height: 80px;
 }
 
@@ -1129,11 +1126,11 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   border: 1px solid var(--linear-accent);
   color: white;
   padding: var(--spacing-2) var(--spacing-4);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .issue-modal-comment-button:hover {
@@ -1200,7 +1197,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
 .status-badge {
   display: inline-block;
   padding: 4px var(--spacing-2);
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   font-size: 11px;
   font-weight: 600;
   text-transform: capitalize;
@@ -1249,7 +1246,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
 .issue-modal-sidebar::-webkit-scrollbar-thumb,
 .feature::-webkit-scrollbar-thumb {
   background: var(--linear-bg-elevated);
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
 }
 
 .ticket-scroll::-webkit-scrollbar-thumb:hover,
@@ -1271,7 +1268,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   transform: translate(-50%, -50%);
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-lg);
+  border-radius: 8px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
   color: var(--linear-text-primary);
   z-index: 10002;
@@ -1339,7 +1336,7 @@ h6 { font-size: var(--font-size-lg); line-height: var(--line-height-normal); }
   border: 1px solid var(--linear-border);
   color: var(--linear-text-secondary);
   margin-left: var(--spacing-4);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   padding: var(--spacing-2);
 }
 
@@ -1355,7 +1352,7 @@ select {
   text-indent: 1px;
   text-overflow: "";
   padding: var(--spacing-1);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-secondary);
   cursor: pointer;
 }
@@ -1375,7 +1372,7 @@ select {
 }
 
 .create-button-cont > button {
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   border: 1px solid var(--linear-accent);
   background-color: var(--linear-accent);
   color: white;
@@ -1385,7 +1382,7 @@ select {
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .create-button-cont > button:hover {
@@ -1477,11 +1474,11 @@ select {
   border: 1px solid var(--linear-accent);
   color: white;
   padding: var(--spacing-2) var(--spacing-4);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .create-project-btn:hover,
@@ -1512,10 +1509,10 @@ select {
 .label-card {
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 6px;
   padding: var(--spacing-4);
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .project-card h3,
@@ -1558,7 +1555,7 @@ select {
 .project-icon {
   width: 32px;
   height: 32px;
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1581,7 +1578,7 @@ select {
 .project-status {
   display: inline-block;
   padding: 3px 8px;
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   font-size: 11px;
   font-weight: 600;
   text-transform: capitalize;
@@ -1653,7 +1650,7 @@ select {
   background-color: rgba(15, 120, 60, 0.15);
   color: var(--linear-success);
   padding: 4px var(--spacing-2);
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   font-size: 11px;
   font-weight: 600;
 }
@@ -1670,7 +1667,7 @@ select {
   flex-direction: column;
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-lg);
+  border-radius: 8px;
   padding: var(--spacing-6);
   min-height: 0;
 }
@@ -1694,10 +1691,10 @@ select {
   border: 1px solid var(--linear-border);
   color: var(--linear-text-secondary);
   padding: var(--spacing-2) var(--spacing-3);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   font-size: 13px;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .activity-filters button:hover {
@@ -1723,7 +1720,7 @@ select {
   display: flex;
   gap: var(--spacing-3);
   padding: var(--spacing-3);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   transition: background-color 0.15s ease;
 }
 
@@ -1739,7 +1736,7 @@ select {
   align-items: center;
   justify-content: center;
   background-color: var(--linear-bg-elevated);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
 }
 
 .activity-content {
@@ -1783,7 +1780,7 @@ select {
 .modal-content {
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-lg);
+  border-radius: 8px;
   width: 100%;
   max-width: 500px;
   max-height: 90vh;
@@ -1815,8 +1812,8 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  border-radius: 5px;
+  transition: all 0.15s ease;
 }
 
 .modal-header button:hover {
@@ -1834,13 +1831,13 @@ select {
   width: 100%;
   background-color: var(--linear-bg-elevated);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-primary);
   padding: var(--spacing-2) var(--spacing-3);
   font-size: 14px;
   font-family: var(--font-family);
   outline: none;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
   margin-bottom: var(--spacing-4);
 }
 
@@ -1867,7 +1864,7 @@ select {
   width: 50px;
   height: 40px;
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   cursor: pointer;
   padding: 2px;
 }
@@ -1878,11 +1875,11 @@ select {
   border: 1px solid var(--linear-accent);
   color: white;
   padding: var(--spacing-2) var(--spacing-4);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .modal-submit-btn:hover {
@@ -1893,7 +1890,7 @@ select {
 .settings-section {
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-lg);
+  border-radius: 8px;
   padding: var(--spacing-6);
   margin-bottom: var(--spacing-6);
 }
@@ -1921,12 +1918,12 @@ select {
   width: 100%;
   background-color: var(--linear-bg-elevated);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-primary);
   padding: var(--spacing-2) var(--spacing-3);
   font-size: 14px;
   outline: none;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .settings-select:focus {
@@ -1964,13 +1961,13 @@ select {
   gap: var(--spacing-4);
   padding: var(--spacing-3);
   background-color: var(--linear-bg-elevated);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
 }
 
 .shortcut-item kbd {
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   padding: 4px var(--spacing-2);
   font-size: 12px;
   font-family: var(--font-mono);
@@ -1989,11 +1986,11 @@ select {
   border: 1px solid var(--linear-accent);
   color: white;
   padding: var(--spacing-3) var(--spacing-6);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .save-settings-btn:hover {
@@ -2004,7 +2001,7 @@ select {
 .team-icon {
   width: 48px;
   height: 48px;
-  border-radius: var(--radius-md);
+  border-radius: 6px;
   background: linear-gradient(135deg, var(--linear-accent) 0%, #764ba2 100%);
   display: flex;
   align-items: center;
@@ -2040,7 +2037,7 @@ select {
   background-color: rgba(94, 106, 210, 0.15);
   color: var(--linear-accent);
   padding: 4px var(--spacing-2);
-  border-radius: var(--radius-sm);
+  border-radius: 4px;
   font-size: 11px;
   font-weight: 600;
 }
@@ -2058,10 +2055,10 @@ select {
   border: 1px dashed var(--linear-border);
   color: var(--linear-text-secondary);
   padding: var(--spacing-2) var(--spacing-3);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   font-size: 13px;
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .upload-button:hover {
@@ -2082,14 +2079,14 @@ select {
   gap: var(--spacing-3);
   padding: var(--spacing-2);
   background-color: var(--linear-bg-elevated);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
 }
 
 .file-preview {
   width: 40px;
   height: 40px;
   object-fit: cover;
-  border-radius: var(--radius-md);
+  border-radius: 5px;
 }
 
 .file-name {
@@ -2110,8 +2107,8 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  border-radius: 5px;
+  transition: all 0.15s ease;
 }
 
 .file-remove:hover {
@@ -2159,8 +2156,8 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-md);
-  transition: all var(--transition-base);
+  border-radius: 5px;
+  transition: all 0.15s ease;
 }
 
 .label-delete-btn:hover {
@@ -2180,12 +2177,12 @@ select {
   height: 40px;
   background-color: var(--linear-bg-secondary);
   border: 1px solid var(--linear-border);
-  border-radius: var(--radius-md);
+  border-radius: 5px;
   color: var(--linear-text-primary);
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition-base);
+  transition: all 0.15s ease;
 }
 
 .sidebar-toggle:hover {

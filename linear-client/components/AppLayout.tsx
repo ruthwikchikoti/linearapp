@@ -9,6 +9,9 @@ import RoadmapIcon from "./icons/Roadmap";
 import ViewIcon from "./icons/View";
 import CommandPalette from "./CommandPalette";
 import SidebarToggle from "./SidebarToggle";
+import NotificationCenter from "./NotificationCenter";
+import KeyboardShortcutsModal from "./KeyboardShortcutsModal";
+import { useKeyboardShortcuts } from "../lib/useKeyboardShortcuts";
 import { useState, useEffect, KeyboardEvent } from "react";
 
 interface AppLayoutProps {
@@ -20,21 +23,33 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const { currentTeam } = useApp();
   const [showCommandPalette, setShowCommandPalette] = useState(false);
 
+  // Integrate keyboard shortcuts
+  useKeyboardShortcuts(
+    () => setShowCommandPalette(true),
+    () => {
+      if (router.pathname === "/") {
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent("open-create-modal"));
+        }
+      } else {
+        router.push("/?action=create");
+      }
+    },
+    undefined
+  );
+
+  // Handle escape key to close command palette
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        setShowCommandPalette(true);
-      }
+
+    const handleEscape = (e: any) => {
       if (e.key === "Escape") {
         setShowCommandPalette(false);
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown as any);
-    return () => window.removeEventListener("keydown", handleKeyDown as any);
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
   }, []);
 
   const isActive = (path: string) => {
@@ -77,6 +92,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
       label: "Cycles",
       icon: RoadmapIcon,
       onClick: () => router.push("/cycles"),
+    },
+    {
+      path: "/integrations",
+      label: "Integrations",
+      icon: ViewIcon,
+      onClick: () => router.push("/integrations"),
     },
   ];
 
@@ -140,8 +161,25 @@ export default function AppLayout({ children }: AppLayoutProps) {
         </div>
 
         {/* Main Content Area */}
-        <div className="ticket-cont">{children}</div>
+        <div className="ticket-cont">
+          {/* Top bar with notifications */}
+          <div style={{
+            position: 'absolute',
+            top: 'var(--spacing-4)',
+            right: 'var(--spacing-6)',
+            zIndex: 1000,
+            display: 'flex',
+            gap: 'var(--spacing-2)',
+            alignItems: 'center'
+          }}>
+            <NotificationCenter />
+          </div>
+          {children}
+        </div>
       </div>
+
+      {/* Keyboard Shortcuts Modal */}
+      <KeyboardShortcutsModal />
 
       {/* Command Palette */}
       <CommandPalette
