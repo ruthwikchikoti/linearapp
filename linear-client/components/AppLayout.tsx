@@ -157,6 +157,16 @@ export default function AppLayout({ children }: AppLayoutProps) {
             router.push("/?action=create");
           }
         }}
+        onApplyFilter={(filterType, value) => {
+          // Navigate to home page with filter
+          router.push(`/?${filterType}=${value}`);
+        }}
+        onOpenIssue={(issueId) => {
+          router.push(`/?issue=${issueId}`);
+        }}
+        onNavigateToProject={(projectId) => {
+          router.push(`/projects`);
+        }}
       />
     </main>
   );

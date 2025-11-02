@@ -48,6 +48,25 @@ router.get("/:id", async (req: Request, res: Response) => {
 router.post("/", async (req: Request, res: Response) => {
   try {
     const cycle = await CycleModel.create(req.body);
+    
+    // Auto-include active issues in the cycle
+    if (req.body.team) {
+      const activeIssues = await TicketModel.find({
+        team: req.body.team,
+        status: { $in: ["TODO", "INPROGRESS", "IN_DEV_REVIEW"] },
+        cycle: { $exists: false },
+      });
+      
+      // Optionally auto-assign first batch of active issues
+      // Or just update cycle association for existing active issues
+      if (activeIssues.length > 0) {
+        await TicketModel.updateMany(
+          { _id: { $in: activeIssues.map((i) => i._id) } },
+          { cycle: cycle._id }
+        );
+      }
+    }
+    
     return res.status(201).send(cycle);
   } catch (error) {
     return res.status(400).send({ message: error });

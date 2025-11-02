@@ -375,28 +375,185 @@ The application uses a carefully crafted design system matching Linear's aesthet
 - **Spacing:**
   - Consistent 4px, 8px, 12px, 16px, 24px spacing scale
 
+## 🏛️ Architecture & Design Decisions
+
+### System Architecture
+
+The application follows a **client-server architecture** with real-time synchronization:
+
+```
+┌─────────────┐         HTTP/REST         ┌─────────────┐
+│   Next.js   │ ◄─────────────────────► │   Express   │
+│  Frontend   │                           │   Backend   │
+│             │                           │             │
+│  React UI   │     WebSocket (Socket.io)  │  MongoDB   │
+│             │ ◄─────────────────────► │  Database   │
+└─────────────┘                           └─────────────┘
+```
+
+### Frontend Architecture
+
+**Component Hierarchy:**
+- `_app.tsx` - Root wrapper with global state (AppProvider)
+- `AppLayout.tsx` - Persistent sidebar and navigation
+- `pages/index.tsx` - Main issues page (Kanban/List views)
+- `IssueDetailModal.tsx` - Full issue editing interface
+- `CommandPalette.tsx` - Global command menu (⌘K)
+- `ActivityFeed.tsx` - Activity timeline component
+
+**State Management:**
+- React Context API for global state (teams, current team, user, theme)
+- Local component state for UI interactions
+- Optimistic updates for better UX
+
+**Real-time Integration:**
+- Socket.io client connects on page load
+- Joins team-specific rooms for scoped updates
+- Listens for: `recieved-ticket`, `recieved-update-ticket`, `ticket-deleted`, `comment-created`, `comment-updated`, `activity-created`
+
+### Backend Architecture
+
+**API Structure:**
+- RESTful API with Express routers
+- Controllers handle business logic
+- Models define MongoDB schemas
+- WebSocket events for real-time updates
+
+**Real-time Synchronization Strategy:**
+
+1. **Connection Model:**
+   - Each client connects to Socket.io server
+   - Client joins team-specific room: `socket.join(teamId)`
+   - Events broadcasted to specific team rooms
+
+2. **Event Flow:**
+   ```
+   Client Action → API Request → Database Update → Socket Event → All Clients in Room
+   ```
+
+3. **Consistency Handling:**
+   - Server is source of truth
+   - All updates go through API endpoints
+   - Socket events broadcast after successful DB update
+   - Client receives event and updates local state
+   - Conflicts handled by server timestamps
+
+4. **Edge Cases Handled:**
+   - **Concurrent Updates:** Last write wins (MongoDB updates are atomic)
+   - **Network Failures:** Client retries failed API calls
+   - **Socket Disconnection:** Client reconnects and re-syncs data
+   - **Race Conditions:** Backend validates and applies updates sequentially
+   - **Stale Data:** Periodic refresh + socket updates keep data fresh
+
+**Data Models:**
+- **Ticket:** Issues with status, priority, assignee, project, cycle, labels
+- **Team:** Workspace teams with members and identifier
+- **Project:** Grouping mechanism for issues
+- **Cycle:** Time-boxed sprints with start/end dates
+- **Comment:** Threaded comments with parent references
+- **Activity:** Audit trail of all changes
+- **User:** User profiles with preferences
+- **Label:** Categorization system
+
+### Business Logic
+
+1. **Issue ID Generation:**
+   - Format: `{TEAM_IDENTIFIER}-{SEQUENTIAL_NUMBER}`
+   - Generated server-side on issue creation
+   - Ensures uniqueness per team
+
+2. **Progress Calculation:**
+   - Projects: `(Completed Issues / Total Issues) * 100`
+   - Cycles: `(Completed Issues / Total Issues) * 100`
+   - Calculated dynamically on each request
+
+3. **Auto-include Active Issues in Cycles:**
+   - When cycle is created, automatically assigns active issues (TODO, INPROGRESS, IN_DEV_REVIEW)
+   - Only includes issues without existing cycle assignment
+   - Prevents duplicate assignments
+
+4. **Activity Tracking:**
+   - Created automatically on issue/comment operations
+   - Tracks: issue_created, issue_updated, issue_assigned, status_changed, comment_added, mention
+   - Used for activity feed and notifications
+
+5. **Threaded Comments:**
+   - Parent comments have `parent: null`
+   - Replies reference parent via `parent: commentId`
+   - UI organizes comments hierarchically
+
+6. **Mentions:**
+   - Detected via `@username` pattern in comments
+   - Extracted and stored in `mentions` array
+   - Used for activity feed filtering
+
 ## 🚀 Performance Optimizations
 
-1. **Real-time Updates:** Efficient WebSocket event handling
+1. **Real-time Updates:** Efficient WebSocket event handling with room-based broadcasting
 2. **Client-side Filtering:** Fast in-memory filtering before API calls
 3. **Lazy Loading:** Components load on demand
-4. **Optimistic Updates:** UI updates immediately, syncs with server
-5. **Debounced Search:** Prevents excessive API calls
+4. **Optimistic Updates:** UI updates immediately, syncs with server asynchronously
+5. **Debounced Search:** Prevents excessive API calls during typing
 6. **Memoized Components:** React.memo for expensive components
+7. **Database Indexing:** MongoDB indexes on frequently queried fields (team, status, assignee)
+8. **Selective Population:** Only populate required relationships in API responses
+9. **Batch Operations:** Use Promise.all for parallel data fetching
+10. **Connection Pooling:** MongoDB connection reuse via Mongoose
+
+### Edge Cases & Error Handling
+
+**Handled Edge Cases:**
+- ✅ Empty states (no issues, no comments, no projects)
+- ✅ Network timeouts and retries
+- ✅ Invalid team/issue IDs
+- ✅ Concurrent issue updates
+- ✅ Socket reconnection after disconnect
+- ✅ Large datasets (pagination ready, currently shows all)
+- ✅ File upload failures
+- ✅ Invalid file types/sizes
+- ✅ Missing required fields in API requests
+- ✅ Duplicate team identifiers
+- ✅ Orphaned comments (handled by parent reference)
+
+## 📊 API Documentation
+
+### Synchronization Strategy
+
+**Real-time Updates Flow:**
+
+1. **Client Action:** User performs action (create/update issue, add comment)
+2. **API Request:** Client sends HTTP request to backend
+3. **Database Update:** Backend validates and updates MongoDB
+4. **Socket Broadcast:** Backend emits Socket.io event to team room
+5. **Client Receives:** All connected clients in team receive update
+6. **UI Update:** Clients update local state and re-render
+
+**Socket Events:**
+- `create-ticket` → `recieved-ticket` (broadcast to team room)
+- `update-ticket` → `recieved-update-ticket` (broadcast to team room)
+- `delete-ticket` → `ticket-deleted` (broadcast to team room)
+- `create-comment` → `comment-created` (broadcast to team room)
+- `update-comment` → `comment-updated` (broadcast to team room)
+- `new-activity` → `activity-created` (broadcast to team room)
+
+**Room Management:**
+- Clients join team room: `socket.emit('current-team', teamId)`
+- Server joins socket to room: `socket.join(teamId)`
+- Events broadcasted: `socket.in(teamId).emit(event, data)`
 
 ## 🎯 Future Enhancements
 
 ### Planned Features
-- [ ] **Markdown Rendering** - Full markdown support in descriptions and comments
-- [ ] **File Attachments** - Upload and preview images/files
+- [x] **Markdown Rendering** - ✅ Implemented with react-markdown
+- [x] **File Attachments** - ✅ Upload and preview implemented
 - [ ] **Mobile Responsive View** - Optimized mobile experience
-- [ ] **GitHub Integration** - Auto-link commits and PRs (webhook endpoints ready)
+- [x] **GitHub Integration** - ✅ Webhook endpoints ready
 - [ ] **User Authentication** - JWT-based auth system
-- [ ] **Workspace Settings** - Theme customization, notifications
+- [x] **Workspace Settings** - ✅ Workspace configuration added
 - [ ] **Roadmap View** - Visual project timeline
 - [ ] **AI-based Issue Triage** - Smart issue categorization
 - [ ] **Export/Import** - CSV/JSON export functionality
-- [ ] **Keyboard Shortcuts Modal** - Display all shortcuts
+- [x] **Keyboard Shortcuts Modal** - ✅ Displayed in settings
 
 ### Technical Improvements
 - [ ] Unit and integration tests
@@ -405,6 +562,9 @@ The application uses a carefully crafted design system matching Linear's aesthet
 - [ ] Error boundaries
 - [ ] Service worker for offline support
 - [ ] Progressive Web App (PWA)
+- [ ] Pagination for large datasets
+- [ ] Caching layer (Redis) for frequent queries
+- [ ] Rate limiting on API endpoints
 
 ## 🤝 Contributing
 

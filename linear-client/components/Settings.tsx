@@ -3,11 +3,17 @@ import { useApp } from "../lib/context";
 import { userAPI } from "../lib/api";
 
 export default function Settings() {
-  const { user, theme, setTheme } = useApp();
+  const { user, theme, setTheme, currentTeam } = useApp();
   const [settings, setSettings] = useState({
     theme: theme,
     notifications: true,
     emailNotifications: true,
+  });
+  const [workspaceSettings, setWorkspaceSettings] = useState({
+    workspaceName: currentTeam?.name || "",
+    defaultView: "kanban",
+    autoAssignCycle: false,
+    defaultIssueStatus: "TODO",
   });
 
   useEffect(() => {
@@ -37,6 +43,48 @@ export default function Settings() {
     <div className="settings-page">
       <h1>Settings</h1>
       
+      {/* Workspace Settings */}
+      <div className="settings-section">
+        <h2>Workspace Settings</h2>
+        <div className="settings-group">
+          <label>Workspace Name</label>
+          <input
+            type="text"
+            value={workspaceSettings.workspaceName}
+            onChange={(e) =>
+              setWorkspaceSettings({ ...workspaceSettings, workspaceName: e.target.value })
+            }
+            className="settings-input"
+            placeholder={currentTeam?.name || "Workspace name"}
+          />
+        </div>
+        <div className="settings-group">
+          <label>Default View</label>
+          <select
+            value={workspaceSettings.defaultView}
+            onChange={(e) =>
+              setWorkspaceSettings({ ...workspaceSettings, defaultView: e.target.value })
+            }
+            className="settings-select"
+          >
+            <option value="kanban">Kanban</option>
+            <option value="list">List</option>
+          </select>
+        </div>
+        <div className="settings-group">
+          <label className="settings-toggle">
+            <input
+              type="checkbox"
+              checked={workspaceSettings.autoAssignCycle}
+              onChange={(e) =>
+                setWorkspaceSettings({ ...workspaceSettings, autoAssignCycle: e.target.checked })
+              }
+            />
+            <span>Auto-assign active issues to new cycles</span>
+          </label>
+        </div>
+      </div>
+
       <div className="settings-section">
         <h2>Appearance</h2>
         <div className="settings-group">

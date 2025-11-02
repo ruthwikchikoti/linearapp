@@ -14,9 +14,12 @@ interface CommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
   onCreateIssue?: () => void;
+  onApplyFilter?: (filterType: string, value: string) => void;
+  onOpenIssue?: (issueId: string) => void;
+  onNavigateToProject?: (projectId: string) => void;
 }
 
-export default function CommandPalette({ isOpen, onClose, onCreateIssue }: CommandPaletteProps) {
+export default function CommandPalette({ isOpen, onClose, onCreateIssue, onApplyFilter, onOpenIssue, onNavigateToProject }: CommandPaletteProps) {
   const [query, setQuery] = useState("");
   const [items, setItems] = useState<CommandItem[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -81,7 +84,7 @@ export default function CommandPalette({ isOpen, onClose, onCreateIssue }: Comma
             subtitle: `Show issues assigned to ${user.name}`,
             category: "Filters",
             action: () => {
-              // Handle filter
+              onApplyFilter?.("assignee", user._id);
               onClose();
             },
           });
@@ -90,7 +93,10 @@ export default function CommandPalette({ isOpen, onClose, onCreateIssue }: Comma
 
     // Filter by status
     if (query.startsWith("status:")) {
-      const statuses = ["TODO", "INPROGRESS", "IN_DEV_REVIEW", "DONE"];
+      const statusQuery = query.replace("status:", "").trim().toUpperCase();
+      const statuses = ["TODO", "INPROGRESS", "IN_DEV_REVIEW", "DONE"].filter(
+        (s) => s.includes(statusQuery) || statusQuery === ""
+      );
       statuses.forEach((status) => {
         filtered.push({
           id: `filter-status-${status}`,
@@ -98,47 +104,66 @@ export default function CommandPalette({ isOpen, onClose, onCreateIssue }: Comma
           subtitle: `Show ${status} issues`,
           category: "Filters",
           action: () => {
+            onApplyFilter?.("status", status);
             onClose();
           },
         });
       });
     }
 
-    // Issues
-    tickets
-      .filter((t) => 
-        t.title?.toLowerCase().includes(query.toLowerCase()) ||
-        t.issueId?.toLowerCase().includes(query.toLowerCase())
-      )
-      .slice(0, 5)
-      .forEach((ticket) => {
-        filtered.push({
-          id: `issue-${ticket._id}`,
-          title: ticket.title,
-          subtitle: ticket.issueId,
-          category: "Issues",
-          action: () => {
-            // Open issue detail
-            onClose();
-          },
-        });
+    // Filter by label
+    if (query.startsWith("label:")) {
+      const labelQuery = query.replace("label:", "").trim();
+      // Note: labels would need to be fetched separately
+      filtered.push({
+        id: "filter-label-help",
+        title: "Use label filter dropdown in main view",
+        subtitle: "Label filtering available in main filters",
+        category: "Filters",
+        action: () => onClose(),
       });
+    }
+
+    // Issues
+    if (!query.startsWith("assignee:") && !query.startsWith("status:") && !query.startsWith("label:")) {
+      tickets
+        .filter((t) => 
+          t.title?.toLowerCase().includes(query.toLowerCase()) ||
+          t.issueId?.toLowerCase().includes(query.toLowerCase())
+        )
+        .slice(0, 5)
+        .forEach((ticket) => {
+          filtered.push({
+            id: `issue-${ticket._id}`,
+            title: ticket.title,
+            subtitle: ticket.issueId,
+            category: "Issues",
+            action: () => {
+              onOpenIssue?.(ticket._id);
+              onClose();
+            },
+          });
+        });
+    }
 
     // Projects
-    projects
-      .filter((p) => p.name?.toLowerCase().includes(query.toLowerCase()))
-      .slice(0, 3)
-      .forEach((project) => {
-        filtered.push({
-          id: `project-${project._id}`,
-          title: project.name,
-          subtitle: "Project",
-          category: "Projects",
-          action: () => {
-            onClose();
-          },
+    if (!query.startsWith("assignee:") && !query.startsWith("status:") && !query.startsWith("label:")) {
+      projects
+        .filter((p) => p.name?.toLowerCase().includes(query.toLowerCase()))
+        .slice(0, 3)
+        .forEach((project) => {
+          filtered.push({
+            id: `project-${project._id}`,
+            title: project.name,
+            subtitle: "Project",
+            category: "Projects",
+            action: () => {
+              onNavigateToProject?.(project._id);
+              onClose();
+            },
+          });
         });
-      });
+    }
 
     setItems(filtered);
   };

@@ -11,6 +11,12 @@ export default function TeamManagement() {
   const [teamList, setTeamList] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [editingTeam, setEditingTeam] = useState<string | null>(null);
+  const [editTeam, setEditTeam] = useState({
+    name: "",
+    identifier: "",
+    description: "",
+  });
   const [newTeam, setNewTeam] = useState({
     name: "",
     identifier: "",
@@ -57,6 +63,39 @@ export default function TeamManagement() {
     router.push("/");
   };
 
+  const startEdit = (team: any, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setEditingTeam(team._id);
+    setEditTeam({
+      name: team.name,
+      identifier: team.identifier,
+      description: team.description || "",
+    });
+  };
+
+  const saveEdit = async (teamId: string) => {
+    if (!editTeam.name.trim() || !editTeam.identifier.trim()) return;
+    try {
+      await teamAPI.update(teamId, editTeam);
+      setEditingTeam(null);
+      await fetchTeams();
+    } catch (error) {
+      console.error("Error updating team:", error);
+    }
+  };
+
+  const archiveTeam = async (team: any, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (confirm(`Archive ${team.name}?`)) {
+      try {
+        await teamAPI.delete(team._id);
+        await fetchTeams();
+      } catch (error) {
+        console.error("Error archiving team:", error);
+      }
+    }
+  };
+
   return (
     <div className="team-management">
       <div className="team-header">
@@ -79,15 +118,67 @@ export default function TeamManagement() {
           >
             <div className="team-icon">{team.identifier.substring(0, 2)}</div>
             <div className="team-info">
-              <h3>{team.name}</h3>
-              <p>{team.description || "No description"}</p>
-              <span className="team-members-count">
-                {team.members?.length || 0} members
-              </span>
+              {editingTeam === team._id ? (
+                <div className="team-edit-form" onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="text"
+                    value={editTeam.name}
+                    onChange={(e) => setEditTeam({ ...editTeam, name: e.target.value })}
+                    className="team-edit-input"
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <input
+                    type="text"
+                    value={editTeam.identifier}
+                    onChange={(e) => setEditTeam({ ...editTeam, identifier: e.target.value.toUpperCase() })}
+                    className="team-edit-input"
+                    maxLength={3}
+                    onClick={(e) => e.stopPropagation()}
+                  />
+                  <div className="team-edit-actions">
+                    <button onClick={() => saveEdit(team._id)} className="team-save-btn">
+                      Save
+                    </button>
+                    <button onClick={() => setEditingTeam(null)} className="team-cancel-btn">
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h3>{team.name}</h3>
+                  <p>{team.description || "No description"}</p>
+                  <span className="team-members-count">
+                    {team.members?.length || 0} members
+                  </span>
+                </>
+              )}
             </div>
-            {currentTeam?._id === team._id && (
-              <span className="current-team-badge">Current</span>
-            )}
+            <div className="team-actions" onClick={(e) => e.stopPropagation()}>
+              {currentTeam?._id === team._id && (
+                <span className="current-team-badge">Current</span>
+              )}
+              {editingTeam !== team._id && (
+                <>
+                  <button
+                    className="team-edit-btn"
+                    onClick={(e) => startEdit(team, e)}
+                    title="Edit team"
+                  >
+                    ✏️
+                  </button>
+                  {!team.archived && (
+                    <button
+                      className="team-archive-btn"
+                      onClick={(e) => archiveTeam(team, e)}
+                      title="Archive team"
+                    >
+                      🗄️
+                    </button>
+                  )}
+                </>
+              )}
+            </div>
           </div>
         ))}
       </div>

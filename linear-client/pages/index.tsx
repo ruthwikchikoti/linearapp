@@ -1,6 +1,6 @@
 import { DefaultEventsMap } from "@socket.io/component-emitter";
 import Head from "next/head";
-import { useEffect, useState, KeyboardEvent } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { io, Socket } from "socket.io-client";
 import axios from "axios";
@@ -52,6 +52,7 @@ function HomeContent() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState<string | null>(null);
   const [showIssueModal, setShowIssueModal] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const [filters, setFilters] = useState({
     assignee: "",
     status: "",
@@ -87,6 +88,10 @@ function HomeContent() {
   });
 
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
     fetchAllData();
     setupSocket();
     setupKeyboardShortcuts();
@@ -95,7 +100,7 @@ function HomeContent() {
   const setupKeyboardShortcuts = () => {
     if (typeof window === 'undefined') return;
     
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: globalThis.KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setShowCommandPalette(true);
@@ -163,7 +168,7 @@ function HomeContent() {
   };
 
   const organizeTickets = (tickets: any[]) => {
-    const organized = { TODO: [], INPROGRESS: [], IN_DEV_REVIEW: [], DONE: [] };
+    const organized: { [key: string]: any[] } = { TODO: [], INPROGRESS: [], IN_DEV_REVIEW: [], DONE: [] };
     tickets.forEach((ticket) => {
       if (organized[ticket.status as keyof typeof organized]) {
         organized[ticket.status as keyof typeof organized].push(ticket);
@@ -385,7 +390,70 @@ function HomeContent() {
               </div>
             </div>
             {view === "kanban" ? (
-              <DragDropContext onDragEnd={onDragEnd}>
+              isMounted ? (
+                <DragDropContext onDragEnd={onDragEnd}>
+                  <div className="ticket-cont1">
+                    {columnList.map((el, i) => (
+                      <div key={el.value} className="list-cont">
+                        <div className="ticket-col">
+                          <div className="status-bar">
+                            <div>
+                              <el.icon />
+                              <div>{el.name}</div>
+                              <div>{filterTicket[i].length}</div>
+                            </div>
+                            <AddIcon />
+                          </div>
+                          <Droppable droppableId={el.value} type="category">
+                            {(provided: DroppableProvided) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                                className="ticket-scroll"
+                              >
+                                {filterTicket[i]?.map((el: any, idx: number) => (
+                                  <Draggable
+                                    draggableId={el._id}
+                                    key={el._id}
+                                    index={idx}
+                                  >
+                                    {(
+                                      provided: DraggableProvided,
+                                      snapshot: DraggableStateSnapshot
+                                    ) => (
+                                      <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        className={`ticket ${snapshot.isDragging ? "dragging" : ""}`}
+                                        onClick={() => openIssue(el._id)}
+                                      >
+                                        <div>
+                                          <div>{el.issueId}</div>
+                                          {el.assignee && <User />}
+                                        </div>
+                                        <div className="title">{el.title}</div>
+                                        <div className="ticket-meta">
+                                          {el.priority && (
+                                            <span className={`priority priority-${el.priority.toLowerCase()}`}>
+                                              {el.priority}
+                                            </span>
+                                          )}
+                                        </div>
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                ))}
+                                {provided.placeholder}
+                              </div>
+                            )}
+                          </Droppable>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </DragDropContext>
+              ) : (
                 <div className="ticket-cont1">
                   {columnList.map((el, i) => (
                     <div key={el.value} className="list-cont">
@@ -398,55 +466,33 @@ function HomeContent() {
                           </div>
                           <AddIcon />
                         </div>
-                        <Droppable droppableId={el.value} type="category">
-                          {(provided: DroppableProvided) => (
+                        <div className="ticket-scroll">
+                          {filterTicket[i]?.map((el: any, idx: number) => (
                             <div
-                              ref={provided.innerRef}
-                              {...provided.droppableProps}
-                              className="ticket-scroll"
+                              key={el._id}
+                              className="ticket"
+                              onClick={() => openIssue(el._id)}
                             >
-                              {filterTicket[i]?.map((el: any, idx: number) => (
-                                <Draggable
-                                  draggableId={el._id}
-                                  key={el._id}
-                                  index={idx}
-                                >
-                                  {(
-                                    provided: DraggableProvided,
-                                    snapshot: DraggableStateSnapshot
-                                  ) => (
-                                    <div
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
-                                      className={`ticket ${snapshot.isDragging ? "dragging" : ""}`}
-                                      onClick={() => openIssue(el._id)}
-                                    >
-                                      <div>
-                                        <div>{el.issueId}</div>
-                                        {el.assignee && <User />}
-                                      </div>
-                                      <div className="title">{el.title}</div>
-                                      <div className="ticket-meta">
-                                        {el.priority && (
-                                          <span className={`priority priority-${el.priority.toLowerCase()}`}>
-                                            {el.priority}
-                                          </span>
-                                        )}
-                                      </div>
-                                    </div>
-                                  )}
-                                </Draggable>
-                              ))}
-                              {provided.placeholder}
+                              <div>
+                                <div>{el.issueId}</div>
+                                {el.assignee && <User />}
+                              </div>
+                              <div className="title">{el.title}</div>
+                              <div className="ticket-meta">
+                                {el.priority && (
+                                  <span className={`priority priority-${el.priority.toLowerCase()}`}>
+                                    {el.priority}
+                                  </span>
+                                )}
+                              </div>
                             </div>
-                          )}
-                        </Droppable>
+                          ))}
+                        </div>
                       </div>
                     </div>
                   ))}
                 </div>
-              </DragDropContext>
+              )
             ) : (
               <div className="list-view">
                 <table className="issues-table">
@@ -583,6 +629,16 @@ function HomeContent() {
           onCreateIssue={() => {
             setShowCommandPalette(false);
             setShowCreateModal(true);
+          }}
+          onApplyFilter={(filterType, value) => {
+            setFilters((prev) => ({ ...prev, [filterType]: value }));
+          }}
+          onOpenIssue={(issueId) => {
+            setSelectedIssue(issueId);
+            setShowIssueModal(true);
+          }}
+          onNavigateToProject={(projectId) => {
+            router.push(`/projects`);
           }}
         />
 

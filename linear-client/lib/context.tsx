@@ -1,13 +1,15 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { api } from "./api";
 
-interface User {
+export interface User {
   _id: string;
   name: string;
   email: string;
   avatar?: string;
   preferences?: {
     theme?: "light" | "dark";
+    notifications?: boolean;
+    emailNotifications?: boolean;
   };
 }
 
