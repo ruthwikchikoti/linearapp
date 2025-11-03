@@ -15,6 +15,8 @@ import activityController from "./controller/activity.controller";
 import uploadController from "./controller/upload.controller";
 
 const app = express();
+
+// CORS configuration - allow all origins
 app.use(cors());
 app.use(json());
 app.use("/uploads", express.static("uploads"));
@@ -45,8 +47,7 @@ let server = app.listen(PORT, async (): Promise<void> => {
 const io = new Server(server, {
   pingTimeout: 6000,
   cors: {
-    origin: process.env.CLIENT_URL || "*",
-    credentials: true,
+    origin: "*",
   },
 });
 
