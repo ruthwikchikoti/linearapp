@@ -15,7 +15,16 @@ import activityController from "./controller/activity.controller";
 import uploadController from "./controller/upload.controller";
 
 const app = express();
-app.use(cors());
+
+// CORS configuration
+const corsOptions = {
+  origin: process.env.CLIENT_URL || "https://linearapp-ecru.vercel.app",
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
 app.use(json());
 app.use("/uploads", express.static("uploads"));
 
