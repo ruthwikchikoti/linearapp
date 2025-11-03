@@ -251,7 +251,127 @@ npm run dev
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:3005
 
-### MongoDB Setup
+### Docker Compose Setup (Recommended)
+
+The easiest way to run the entire application stack is using Docker Compose. This will automatically set up MongoDB, backend, and frontend services.
+
+**Prerequisites:**
+- Docker Engine and Docker Compose
+
+**Installation:**
+
+**Linux (Ubuntu/Debian):**
+```bash
+# Option 1: Using the provided installation script (Recommended)
+sudo bash install-docker.sh
+
+# Option 2: Manual installation
+# Update package index
+sudo apt-get update
+
+# Install prerequisites
+sudo apt-get install -y ca-certificates curl gnupg lsb-release
+
+# Add Docker's official GPG key
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+# Set up Docker repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Install Docker
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Add your user to docker group (to run without sudo)
+sudo usermod -aG docker $USER
+
+# Log out and log back in, or run:
+newgrp docker
+
+# Verify installation
+docker --version
+docker compose version
+```
+
+**macOS/Windows:**
+- Install Docker Desktop from https://www.docker.com/products/docker-desktop/
+- Docker Compose is included with Docker Desktop
+
+**Quick Start with Docker:**
+
+1. **Clone the repository:**
+```bash
+git clone <repository-url>
+cd linearapp
+```
+
+2. **Start all services with Docker Compose:**
+```bash
+docker-compose up --build
+```
+
+This command will:
+- Build Docker images for frontend and backend
+- Start MongoDB container
+- Start backend server (port 3005)
+- Start frontend server (port 3000)
+- Set up all necessary networking and volumes
+
+3. **Access the application:**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:3005
+- MongoDB: localhost:27017
+
+**Docker Compose Commands:**
+
+```bash
+# Start services in detached mode (background)
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# View logs for specific service
+docker-compose logs -f backend
+docker-compose logs -f frontend
+docker-compose logs -f mongodb
+
+# Stop all services
+docker-compose down
+
+# Stop and remove volumes (clears database)
+docker-compose down -v
+
+# Rebuild and restart services
+docker-compose up --build
+
+# Restart a specific service
+docker-compose restart backend
+```
+
+**Docker Compose Services:**
+- `backend` - Express API server with TypeScript (connects to MongoDB Atlas)
+- `frontend` - Next.js React application
+- `mongodb` - (Optional) Local MongoDB 7 database - uncomment in `docker-compose.yml` to use local MongoDB instead of Atlas
+
+**Environment Variables:**
+Docker Compose automatically configures:
+- Backend connects to MongoDB Atlas (configured in `docker-compose.yml`)
+- Frontend connects to backend at `http://localhost:3005`
+- Uploads directory is persisted in `./linear-server/uploads`
+
+**MongoDB Configuration:**
+- **Default:** Uses MongoDB Atlas (configured in `docker-compose.yml`)
+- **Local MongoDB:** To use a local MongoDB container instead, uncomment the `mongodb` service and volumes section in `docker-compose.yml`, and update `MONGODB_URL` to `mongodb://mongodb:27017/linear`
+
+**Production Deployment:**
+For production, update the environment variables in `docker-compose.yml`:
+- Change `CLIENT_URL` to your production frontend URL
+- Change `BASE_URL` to your production backend URL
+- Update `NEXT_PUBLIC_API_URL` and `NEXT_PUBLIC_SERVER_URL` in frontend build args
+
+### MongoDB Setup (Manual Installation)
 
 **Local MongoDB:**
 1. Install MongoDB locally: https://www.mongodb.com/try/download/community

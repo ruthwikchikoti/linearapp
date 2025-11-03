@@ -1,0 +1,73 @@
+services:
+  # Uncomment below to use local MongoDB instead of Atlas
+  # mongodb:
+  #   image: mongo:7
+  #   container_name: linear-mongodb
+  #   restart: unless-stopped
+  #   ports:
+  #     - "27017:27017"
+  #   environment:
+  #     MONGO_INITDB_DATABASE: linear
+  #   volumes:
+  #     - mongodb_data:/data/db
+  #   healthcheck:
+  #     test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/linear --quiet
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  #     start_period: 40s
+
+  backend:
+    build:
+      context: ./linear-server
+      dockerfile: Dockerfile
+    container_name: linear-backend
+    restart: unless-stopped
+    ports:
+      - "3005:3005"
+    environment:
+      PORT: 3005
+      MONGODB_URL: mongodb+srv://admin:Admin%40123@linearapp.gqmtezu.mongodb.net/linear?retryWrites=true&w=majority
+      BASE_URL: http://localhost:3005
+      CLIENT_URL: http://localhost:3000
+    volumes:
+      - ./linear-server/uploads:/app/uploads
+    # depends_on:
+    #   mongodb:
+    #     condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3005/ticket', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./linear-client
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost:3005
+        - NEXT_PUBLIC_SERVER_URL=http://localhost:3005
+    container_name: linear-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3005
+      NEXT_PUBLIC_SERVER_URL: http://localhost:3005
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Uncomment below if using local MongoDB
+# volumes:
+#   mongodb_data:
+#     driver: local
+
