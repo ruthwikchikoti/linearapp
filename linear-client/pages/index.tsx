@@ -78,7 +78,7 @@ export default function LandingPage() {
       {/* Social Proof Section */}
       <section className="social-proof-section">
         <div className="social-proof-container">
-          <p className="social-proof-title">Powering the world's best product teams.</p>
+          <p className="social-proof-title">Powering the world&apos;s best product teams.</p>
           <p className="social-proof-subtitle">From next-gen startups to established enterprises.</p>
           <div className="company-logos">
             <div className="company-logo">OpenAI</div>
@@ -148,7 +148,7 @@ export default function LandingPage() {
               <div className="auth-switch">
                 {authMode === 'login' ? (
                   <p>
-                    Don't have an account?{' '}
+                    Don&apos;t have an account?{' '}
                     <button className="link-btn" onClick={() => setAuthMode('signup')}>
                       Sign up
                     </button>
