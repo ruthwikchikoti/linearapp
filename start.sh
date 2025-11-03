@@ -2,9 +2,9 @@
 
 echo "🚀 Starting Linear Clone Application..."
 
-# Kill any existing processes on ports 3000 and 3001
+# Kill any existing processes on ports 3000 and 3005
 echo "🧹 Cleaning up existing processes..."
-lsof -ti:3001 | xargs kill -9 2>/dev/null || true
+lsof -ti:3005 | xargs kill -9 2>/dev/null || true
 lsof -ti:3000 | xargs kill -9 2>/dev/null || true
 sleep 1
 
@@ -33,7 +33,7 @@ echo "Frontend PID: $FRONTEND_PID"
 
 echo ""
 echo "✅ Application starting!"
-echo "   Backend:  http://localhost:3001"
+echo "   Backend:  http://localhost:3005"
 echo "   Frontend: http://localhost:3000"
 echo ""
 echo "Press Ctrl+C to stop both servers"

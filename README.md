@@ -1,6 +1,14 @@
 # Linear Clone - Full Stack Project Management Application
 
+> **Hackathon Assignment Submission** - Linear Reinforcement Learning Environment
+
 A high-fidelity, pixel-perfect clone of Linear.app built with Next.js, React, Node.js, Express, MongoDB, and Socket.io. This project demonstrates comprehensive full-stack development with real-time synchronization, advanced filtering, and a polished user interface.
+
+## 🔗 Live Demo
+
+- **Frontend (Vercel)**: https://linearapp-ecru.vercel.app
+- **Backend (Render)**: https://linearapp-1.onrender.com
+- **GitHub Repository**: https://github.com/ruthwikchikoti/linearapp
 
 ## 🎯 Features
 
@@ -201,17 +209,17 @@ npm install
 
 **Backend** - Create `linear-server/.env`:
 ```env
-PORT=3001
+PORT=3005
 MONGODB_URL=mongodb://localhost:27017/linear
-BASE_URL=http://localhost:3001
+BASE_URL=http://localhost:3005
 CLIENT_URL=http://localhost:3000
 ```
 
 **For MongoDB Atlas**, use:
 ```env
-PORT=3001
+PORT=3005
 MONGODB_URL=mongodb+srv://username:password@cluster.mongodb.net/linear?retryWrites=true&w=majority
-BASE_URL=http://localhost:3001
+BASE_URL=http://localhost:3005
 CLIENT_URL=http://localhost:3000
 ```
 
@@ -240,7 +248,7 @@ npm run dev
 ```
 
 5. **Access the application:**
-- Frontend: http://localhost:3002
+- Frontend: http://localhost:3000
 - Backend API: http://localhost:3005
 
 ### MongoDB Setup
@@ -543,235 +551,37 @@ The application follows a **client-server architecture** with real-time synchron
 
 ## 🎯 Future Enhancements
 
-### Planned Features
-- [x] **Markdown Rendering** - ✅ Implemented with react-markdown
-- [x] **File Attachments** - ✅ Upload and preview implemented
-- [ ] **Mobile Responsive View** - Optimized mobile experience
-- [x] **GitHub Integration** - ✅ Webhook endpoints ready
-- [ ] **User Authentication** - JWT-based auth system
-- [x] **Workspace Settings** - ✅ Workspace configuration added
-- [ ] **Roadmap View** - Visual project timeline
-- [ ] **AI-based Issue Triage** - Smart issue categorization
-- [ ] **Export/Import** - CSV/JSON export functionality
-- [x] **Keyboard Shortcuts Modal** - ✅ Displayed in settings
+As per assignment requirements, suggestions for future improvements:
+
+### User Experience
+- **Mobile Responsive View** - Fully optimized mobile and tablet experience with touch gestures
+- **Offline Support** - Service worker implementation for offline functionality
+- **Progressive Web App (PWA)** - Installable app with native-like experience
+- **Advanced Keyboard Navigation** - More extensive keyboard shortcut system
+
+### Features
+- **User Authentication & Authorization** - JWT-based auth system with role-based access control
+- **Roadmap View** - Visual project timeline with Gantt-chart style planning
+- **AI-based Issue Triage** - Smart issue categorization and priority suggestions using ML
+- **Advanced Integrations** - Slack, Jira, GitLab, Figma integrations beyond GitHub
+- **Export/Import** - CSV/JSON export for data portability and backups
+- **Email Notifications** - Configurable email alerts for mentions, assignments, and updates
+- **Advanced Search** - Full-text search with filters and saved search queries
 
 ### Technical Improvements
-- [ ] Unit and integration tests
-- [ ] E2E testing with Playwright
-- [ ] Performance monitoring
-- [ ] Error boundaries
-- [ ] Service worker for offline support
-- [ ] Progressive Web App (PWA)
-- [ ] Pagination for large datasets
-- [ ] Caching layer (Redis) for frequent queries
-- [ ] Rate limiting on API endpoints
-
-## 🤝 Contributing
-
-This is a hackathon submission project. For contributions:
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📝 License
-
-This project is created for educational purposes and hackathon submission.
-
-## 👥 Authors
-
-Built as a hackathon project demonstrating full-stack development capabilities.
-
-## 🙏 Acknowledgments
-
-- Inspired by [Linear.app](https://linear.app)
-- Built with modern web technologies and best practices
-- Focus on pixel-perfect UI and smooth UX
+- **Testing Suite** - Unit, integration, and E2E tests with Playwright/Jest
+- **Performance Monitoring** - Real User Monitoring (RUM) with analytics
+- **Error Boundaries** - Comprehensive error handling and recovery
+- **Pagination & Virtual Scrolling** - Handle large datasets (1000+ issues)
+- **Caching Layer** - Redis for frequent queries and session management
+- **Rate Limiting** - API rate limiting to prevent abuse
+- **Database Optimization** - Advanced indexing and query optimization
+- **CI/CD Pipeline** - Automated testing and deployment workflows
 
 ---
 
----
+**Hackathon Submission** - Linear Reinforcement Learning Environment Assignment
 
-## 🎯 **HACKATHON REQUIREMENTS COMPLIANCE**
-
-This project fully meets and exceeds all hackathon requirements:
-
-### ✅ **Required Features** (100% Implemented)
-
-| **Requirement** | **Status** | **Implementation Details** |
-|-----------------|------------|----------------------------|
-| **Workspace & Team Management** | ✅ Complete | Multi-team support, create/rename/archive teams, team switcher UI |
-| **Issue Tracking** | ✅ Complete | Full CRUD, all properties (title, description, priority, status, labels, assignee, due date, project), inline editing, keyboard shortcuts |
-| **Projects** | ✅ Complete | CRUD operations, automatic progress tracking, project-level filtering/sorting |
-| **Views and Filtering** | ✅ Complete | Kanban board with drag-drop, List/Table view, filter by status/assignee/priority/label, sorting by multiple fields |
-| **Cycles** | ✅ Complete | Sprint creation, time-boxed iterations, auto-include active issues, progress tracking |
-| **Comments & Collaboration** | ✅ Complete | Threaded comments (parent-child), emoji reactions, @mentions, real-time updates |
-| **Command Menu** | ✅ Complete | ⌘K / Ctrl+K global command palette, quick navigation, action execution, smart filters |
-| **Search** | ✅ Complete | Global search across issues/projects/users, filter support (assignee:, status:, label:) |
-| **Activity Feed** | ✅ Complete | Complete activity tracking for all actions, real-time updates |
-| **File Attachments** | ✅ Complete | Upload files/images, preview functionality, file management |
-| **Integrations (Mocked)** | ✅ Complete | GitHub webhook endpoint implemented (/linear/webhook) |
-| **Preferences & Profile** | ✅ Complete | Theme selection (light/dark), notification settings, keyboard shortcuts, profile management |
-| **Animations & Transitions** | ✅ Complete | Smooth 150ms transitions, modal animations, drag-drop visual feedback |
-| **Backend Logic** | ✅ Complete | RESTful API, Socket.io real-time updates, team-based room architecture |
-| **Real-time Updates** | ✅ Complete | WebSocket synchronization across multiple clients, team-scoped events |
-
-### 🎨 **UI/UX Excellence**
-
-- **Pixel-Perfect Design**: Matches Linear's March 2024 redesign with increased contrast
-- **Modern Typography**: Inter font family with Inter Display for headings
-- **Design System**: Complete CSS variable system with 50+ design tokens
-- **Dark Theme**: Optimized dark interface with excellent readability
-- **Smooth Animations**: 150ms cubic-bezier transitions throughout
-- **Responsive Design**: Fully responsive with mobile breakpoints and touch support
-
-### 🏗️ **Architecture Highlights**
-
-**Frontend Excellence:**
-- Next.js 13 with React 18 and TypeScript
-- Custom CSS (2,400+ lines) with comprehensive design system
-- Real-time Socket.io integration with optimistic updates
-- React Context API for efficient state management
-- 12 modular components with 16 custom icon components
-
-**Backend Excellence:**
-- Express + TypeScript with comprehensive API
-- MongoDB + Mongoose with 8 optimized data models
-- Socket.io server with team-based room architecture
-- RESTful API with 40+ endpoints
-- Real-time event broadcasting with conflict resolution
-
-### 📊 **Edge Cases & Robustness**
-
-**Handled Edge Cases:**
-- ✅ Concurrent updates (last-write-wins with timestamps)
-- ✅ Socket reconnection and room rejoining
-- ✅ Orphaned data cleanup (cascade deletes)
-- ✅ Invalid references validation
-- ✅ Network timeouts and retries
-- ✅ File upload failures
-- ✅ Empty states and loading states
-- ✅ Race conditions in drag-drop
-- ✅ Duplicate ID prevention
-
-### 🚀 **Performance Optimizations**
-
-- **Frontend**: Optimistic updates, React.memo, debounced search, lazy loading
-- **Backend**: MongoDB indexes, connection pooling, selective population, batch operations
-- **Real-time**: Team-based rooms (no global broadcasts), efficient event serialization
-
-### 📈 **Metrics**
-
-- **Frontend**: 2,544 lines of component code, 2,400+ lines of CSS
-- **Backend**: 1,178 lines of business logic, 8 data models, 10 controllers
-- **API Endpoints**: 40+ RESTful endpoints
-- **Real-time Events**: 8 Socket.io event types
-- **Database Collections**: 8 optimized MongoDB collections
-
-### 🎓 **Technical Depth**
-
-1. **Complex State Management**: React Context + Socket.io synchronization
-2. **Real-time Architecture**: Team-scoped WebSocket rooms with conflict resolution
-3. **Data Modeling**: Relational-style references in NoSQL with proper population
-4. **Business Logic**: Auto-increment issue IDs, progress calculations, threaded comments
-5. **UI Engineering**: Drag-drop with react-beautiful-dnd, command palette, modal system
-
-### 📝 **Documentation Quality**
-
-- ✅ Comprehensive README with 600+ lines
-- ✅ Architecture diagrams and explanations
-- ✅ API endpoint documentation
-- ✅ Setup instructions for multiple environments
-- ✅ Business logic explanation
-- ✅ Edge case documentation
-- ✅ Performance optimization details
-- ✅ Future enhancement roadmap
-
----
-
-## 📸 **Demo & Screenshots**
-
-### Application Screenshots
-
-**Main Kanban Board:**
-- Drag-and-drop issue management
-- Real-time status updates
-- Visual workflow columns
-- Priority and label indicators
-
-**Issue Detail Modal:**
-- Full markdown support
-- Threaded comments
-- File attachments
-- Status and property editing
-
-**Command Palette (⌘K):**
-- Instant search across all issues
-- Smart filtering
-- Quick navigation
-- Power-user keyboard shortcuts
-
-**Projects & Cycles:**
-- Visual progress tracking
-- Sprint management
-- Project organization
-- Automatic progress calculation
-
-**Activity Feed:**
-- Real-time updates
-- Complete audit trail
-- Team activity timeline
-- Mention notifications
-
----
-
-## 🎥 **Demo Video**
-
-[Record a 2-3 minute demo showing:]
-1. Creating and managing issues
-2. Drag-drop on Kanban board
-3. Command palette usage (⌘K)
-4. Real-time collaboration (two browser windows)
-5. Projects and cycles management
-6. Comments and reactions
-7. Activity feed updates
-
----
-
-## 🔗 **Repository Links**
-
-- **GitHub Repository**: https://github.com/ruthwikchikoti/linearapp
-- **Frontend**: `/linear-client` directory
-- **Backend**: `/linear-server` directory
-
----
-
-## 👨‍💻 **Developer Information**
-
-**Name**: Ruthwik Chikoti
-**GitHub**: [@ruthwikchikoti](https://github.com/ruthwikchikoti)
-**Project**: Linear Clone - Full Stack Project Management Application
-**Hackathon**: Linear Reinforcement Learning Environment Assignment
-
-**Shared with:**
+**Repository shared with:**
 - https://github.com/Naman-Bhalla/
 - https://github.com/raun/
-
----
-
-## 💡 **Key Differentiators**
-
-What makes this Linear clone stand out:
-
-1. **Pixel-Perfect UI**: Exact replication of Linear's 2024 design system
-2. **Real-time Everything**: Socket.io synchronization with team-scoped rooms
-3. **Complete Feature Set**: All required features plus many extras
-4. **Production-Ready**: Proper error handling, edge cases, optimizations
-5. **Clean Architecture**: Well-organized, maintainable, scalable codebase
-6. **Comprehensive Documentation**: Detailed README with architecture explanations
-
----
-
-**Built with ❤️ for Hackathon Submission**
-
