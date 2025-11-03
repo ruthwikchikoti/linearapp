@@ -246,7 +246,7 @@ export default function NotificationCenter() {
                   </div>
                   <div>No notifications</div>
                   <div style={{ fontSize: 'var(--font-size-sm)', marginTop: 'var(--spacing-2)' }}>
-                    We'll notify you when something happens
+                    We&apos;ll notify you when something happens
                   </div>
                 </div>
               ) : (
