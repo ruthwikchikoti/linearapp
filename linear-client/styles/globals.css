@@ -112,7 +112,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  overflow: hidden;
 }
 
 /* Typography - Use Inter Display for headings */
@@ -2237,6 +2236,87 @@ select {
   text-align: center;
   color: var(--linear-text-tertiary);
   font-size: 14px;
+}
+
+/* Empty State Container - Modern Linear Style */
+.empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-16) var(--spacing-6);
+  text-align: center;
+  height: 100%;
+  min-height: 400px;
+  flex: 1;
+}
+
+.empty-state-icon {
+  margin-bottom: var(--spacing-8);
+  color: var(--linear-text-tertiary);
+  opacity: 0.4;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+.empty-state-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--linear-text-primary);
+  margin: 0 0 var(--spacing-3) 0;
+  letter-spacing: -0.3px;
+}
+
+.empty-state-description {
+  font-size: 14px;
+  color: var(--linear-text-tertiary);
+  margin: 0 0 var(--spacing-8) 0;
+  max-width: 400px;
+  line-height: 1.6;
+}
+
+.create-issue-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  background-color: var(--linear-accent);
+  border: 1px solid var(--linear-accent);
+  color: white;
+  padding: var(--spacing-3) var(--spacing-5);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: 0 2px 8px rgba(94, 106, 210, 0.25);
+}
+
+.create-issue-btn:hover {
+  background-color: var(--linear-accent-hover);
+  border-color: var(--linear-accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(94, 106, 210, 0.35);
+}
+
+.create-issue-btn:active {
+  background-color: var(--linear-accent-pressed);
+  border-color: var(--linear-accent-pressed);
+  transform: translateY(0);
+}
+
+.create-issue-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
 .label-color-dot {
